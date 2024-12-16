@@ -9,7 +9,7 @@ using HouseRules.Models;
 using HouseRules.Models.DTOs;
 using HouseRules.Data;
 
-namespace BiancasBikes.Controllers;
+namespace HouseRules.Controllers;
 
 
 [ApiController]

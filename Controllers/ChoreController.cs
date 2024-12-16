@@ -9,7 +9,7 @@ using AutoMapper;
 using Mapping.MappingProfile;
 
 
-namespace BiancasBikes.Controllers;
+namespace HouseRules.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -24,19 +24,23 @@ public class ChoreController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet]
+       [HttpGet]
     // [Authorize]
     ///api/chore
+    // for ChoresList/// 
     public IActionResult Get()
     {
-
-        List<Chore> ourChores = _dbContext.Chores
-                            .Include(c => c.ChoreAssignments)
-                            .Include(c => c.ChoreCompletions)
-                            .ToList();
+          List<Chore> ourChores = _dbContext.Chores.ToList();
         var mappedChores = _mapper.Map<List<ChoreDTO>>(ourChores);
-
         return Ok(mappedChores);
+
+// said dont do the includes its not part of what were mapping so mapper might fail as result 
+        // List<Chore> ourChores = _dbContext.Chores
+        //                     .Include(c => c.ChoreAssignments)
+        //                     .Include(c => c.ChoreCompletions)
+        //                     .ToList();
+        // var mappedChores = _mapper.Map<List<ChoreDTO>>(ourChores);
+        // return Ok(mappedChores);
     }
 
     [HttpGet("{id}")]
@@ -52,7 +56,28 @@ public class ChoreController : ControllerBase
         {
             return NotFound($"Chore with ID {id} not found.");
         }
-        var mappedChore = _mapper.Map<ChoreDTO>(chore);
+        var mappedChore = new {
+            ChoreId = chore.Id,
+            Name = chore.Name,
+            Difficulty = chore.Difficulty,
+            ChoreAssignment = chore.ChoreAssignments.Select( eachCA => new {
+            ChoreAssignmentId = eachCA.Id,
+            UserProfileId = eachCA.UserProfileId,
+            FirstName = eachCA.UserProfile.FirstName,
+            LastName = eachCA.UserProfile.LastName,
+            }).ToList(),
+            ChoreCompletions = chore.ChoreCompletions
+            .OrderBy(eachCC => eachCC.CompletedOn)
+            .Take(1)
+            .Select(eachCC => new {
+                ChoreId = eachCC.ChoreId,
+                ChoreCompletionId = eachCC.Id,
+                DateCompleted = eachCC.CompletedOn,
+                UserProfileId = eachCC.UserProfileId,
+                FirstName = eachCC.UserProfile.FirstName,
+                LastName = eachCC.UserProfile.LastName,
+            }).ToList()
+            };
 
         return Ok(mappedChore);
     }
@@ -120,7 +145,7 @@ public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
 
 }
 
-    [HttpPost]
+  [HttpPost]
     [Authorize]
     public IActionResult CreateChore([FromBody] CreateChoreDTO choreDto)
     {
@@ -136,7 +161,8 @@ public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
         return NoContent();
     }
 
-    [HttpPut("{id}")]
+
+  [HttpPut("{id}")]
 [Authorize]
 public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
 {
@@ -161,6 +187,7 @@ public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
 
     return NoContent(); // Returns 204 No Content
 }
+
 
 
 [HttpDelete("{id}")]
@@ -197,7 +224,7 @@ return NoContent();
 
 }
 
-   [HttpPost("/{choreId}/assign")]
+  [HttpPost("/{choreId}/assign")]
     [Authorize]
     public IActionResult AssignChore(int choreId, [FromQuery] int userId)
     {
@@ -278,6 +305,7 @@ public IActionResult UnassignChore(int choreId, [FromQuery] int userId)
 
     return NoContent();
 }
+
 
 
 

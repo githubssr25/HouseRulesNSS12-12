@@ -54,6 +54,34 @@ public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
             Email = "admin.strator123@gmail.com"
         });
 
+        // Step 1: Add a new user (with a fixed GUID)
+modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
+{
+    Id = "456e7b9a-a12f-4bcb-a9e7-a2c5e764d234", // Fixed GUID (you can generate one online or via Visual Studio)
+    UserName = "ssr25practice",
+    Email = "sr25practice@example.com",
+    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "SsrPassword123!")
+});
+
+// Step 2: Add a UserProfile for this new IdentityUser
+modelBuilder.Entity<UserProfile>().HasData(new UserProfile
+{
+    Id = 3, // Must be a unique primary key
+    IdentityUserId = "456e7b9a-a12f-4bcb-a9e7-a2c5e764d234", // Use the IdentityUser ID here
+    FirstName = "Secondssr25",
+    LastName = "Adminssr25",
+    Address = "300 Admin Street",
+    Email = "sr25practice@example.com"
+});
+
+// Step 3: Link the new user to the Admin role
+modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+{
+    RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", // Admin RoleId (same as before)
+    UserId = "456e7b9a-a12f-4bcb-a9e7-a2c5e764d234" // New Admin UserId
+});
+
+
         // // Generate a GUID for the user ID
         // var user2Id = Guid.NewGuid().ToString();
 

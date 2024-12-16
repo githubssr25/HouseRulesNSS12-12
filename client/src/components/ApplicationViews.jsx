@@ -3,6 +3,9 @@ import { AuthorizedRoute } from "./auth/AuthorizedRoute";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./UserProfileList"
+import {UserProfileDetails} from "./UserProfileDetails"
+import {ChoreDetails} from "./ChoreDetails"
+import {ChoresList} from "./ChoresList"
 // import UserProfileList from "./userprofiles/UserProfileList";
 
 import Home from "./Home"
@@ -11,6 +14,7 @@ import Home from "./Home"
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
     <Routes>
+      {/* HOME, LOGIN, REGISTER */}
       <Route path="/">
         <Route
           index
@@ -28,15 +32,49 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="register"
           element={<Register setLoggedInUser={setLoggedInUser} />}
         />
+      </Route>
+
+      {/* USER PROFILES GROUP */}
+      <Route path="userprofiles">
         <Route
-        path="/userprofiles"
-        element={
-          <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser} >
-            <UserProfileList />
-          </AuthorizedRoute>
-        }
+          index
+          element={
+            <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+              <UserProfileList loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path=":id"
+          element={
+            <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+              <UserProfileDetails loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
         />
       </Route>
+
+      {/* CHORES GROUP */}
+      <Route path="chores">
+        <Route
+          index
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <ChoresList loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path=":id"
+          element={
+            <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+              <ChoreDetails loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+      </Route>
+
+      {/* 404 PAGE */}
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
     </Routes>
   );

@@ -15,6 +15,7 @@ export default function Login({ setLoggedInUser }) {
       if (!user) {
         setFailedLogin(true);
       } else {
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
         setLoggedInUser(user);
         navigate("/");
       }

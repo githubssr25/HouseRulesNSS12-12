@@ -9,7 +9,7 @@ using AutoMapper;
 using Mapping.MappingProfile;
 
 
-namespace BiancasBikes.Controllers;
+namespace HouseRules.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -55,23 +55,70 @@ public class UserProfileController : ControllerBase
         return Ok(userProfiles);
     }
 
-    [HttpGet("{id}")]
+[HttpGet("{id}/chores")]
     // [Authorize]
     public IActionResult GetById(int id)
-    { UserProfile userProfile = _dbContext.UserProfiles.Include(up => up.IdentityUser)
+    {
+        UserProfile userProfile = _dbContext.UserProfiles.Include(up => up.IdentityUser)
                                 .Include(up => up.ChoreAssignments)
                                 .ThenInclude(ca => ca.Chore)
                                 .Include(up => up.ChoreCompletions)
                                 .ThenInclude(cc => cc.Chore)
                                 .FirstOrDefault(up => up.Id == id);
 
-     if (userProfile == null)
-    {
-        return NotFound();
-    }
-    return Ok(userProfile);
-    }
+        if (userProfile == null)
+        {
+            return NotFound();
+        }
 
+        // int userIdInt = int.Parse(id);
+        //include assigned chores completed chores 
+
+        // this is why we need to include where  .Where(ur => ur.UserId == userProfile.IdentityUserId) many users can have the same role 
+        // UserId	RoleId
+        // user-1	role-1
+        // user-1	role-2
+        // user-2	role-2
+        // user-3	role-3
+        // user-3	role-4
+        // user-4	role-1
+        // user-4	role-5
+
+        var userRoleIds = _dbContext.UserRoles
+            .Where(ur => ur.UserId == userProfile.IdentityUserId)
+            .Select(ur => ur.RoleId)
+            .ToList();
+
+        var userChoreDTO = new
+        {
+            FirstName = userProfile.FirstName,
+            LastName = userProfile.LastName,
+            Address = userProfile.Address,
+            Email = userProfile.IdentityUser?.Email,
+            // Roles = _dbContext.UserRoles.Where(eachUR => eachUR.UserId == userProfile.IdentityUserId)
+            // .Select(ourUR => _dbContext.Roles.FirstOrDefault(eachRole => userRoleIds.Contains(ourUR.RoleId))), my wrong way look alter why its wrong 
+            Roles = _dbContext.Roles
+                .Where(role => userRoleIds.Contains(role.Id))
+                .Select(role => role.Name)
+                .ToList(),
+            IdentityUserId = userProfile.IdentityUser.Id,
+            IdentityUser = userProfile.IdentityUser,
+            AssignedChores = userProfile.ChoreAssignments.Select(ca => new
+            {
+                ChoreName = ca.Chore.Name,
+                Difficulty = ca.Chore.Difficulty
+            }).ToList(),
+            CompletedChores = userProfile.ChoreCompletions.Select(cc => new
+            {
+                ChoreName = cc.Chore.Name,
+                CompletedOn = cc.CompletedOn
+            }).ToList()
+        };
+
+
+
+        return Ok(userChoreDTO);
+    }
 
 
 

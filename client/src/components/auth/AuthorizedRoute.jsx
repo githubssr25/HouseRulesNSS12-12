@@ -20,3 +20,10 @@ export const AuthorizedRoute = ({ children, loggedInUser, roles, all }) => {
 
   return authed ? children : <Navigate to="/login" />;
 };
+
+//if you wanted to pass the props from AuthorizedRoutes to its children this is how youd do it
+// Inject loggedInUser into children components
+// return authed
+// ? React.cloneElement(children, { loggedInUser })
+// : <Navigate to="/login" />;
+// };

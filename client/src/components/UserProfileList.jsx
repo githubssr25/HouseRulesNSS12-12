@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { getAllUserProfiles } from "../managers/userProfileManager";
+import { Link } from "react-router-dom";
 
 
 const UserProfileList = () => {
@@ -35,6 +36,11 @@ useEffect(() => {
                 <td>{profile.lastName}</td>
                 <td>{profile.email}</td>
                 <td>{profile.address}</td>
+                <td>
+                  <Link to={`/userprofiles/${profile.id}`}>
+                    Details
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
