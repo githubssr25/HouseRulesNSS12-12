@@ -36,3 +36,25 @@ export const getUserProfileById = async (id) => {
     return null;
   }
 };
+
+
+export const getUserProfileChoresById = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}/chores`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch user profile");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
+
+
+
+
+}

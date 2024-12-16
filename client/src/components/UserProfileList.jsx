@@ -1,9 +1,11 @@
 
 import { useEffect, useState } from "react";
 import { getAllUserProfiles } from "../managers/userProfileManager";
+import { Link } from "react-router-dom";
 
+/* eslint-disable react/prop-types */
 
-export const UserProfileList = () => {
+export const UserProfileList = ({loggedInUser}) => {
 
 
 const [userProfiles, setUserProfiles] = useState([]);
@@ -35,6 +37,9 @@ useEffect(() => {
                 <td>{profile.lastName}</td>
                 <td>{profile.email}</td>
                 <td>{profile.address}</td>
+                {loggedInUser.roles && loggedInUser.roles.includes("Admin") && (
+                <Link to={`/userprofiles/${profile.id}`}>Details </Link>
+                )}
               </tr>
             ))}
           </tbody>

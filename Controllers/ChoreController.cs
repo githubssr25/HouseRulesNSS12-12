@@ -27,16 +27,20 @@ public class ChoreController : ControllerBase
     [HttpGet]
     // [Authorize]
     ///api/chore
+    // for ChoresList/// 
     public IActionResult Get()
     {
-
-        List<Chore> ourChores = _dbContext.Chores
-                            .Include(c => c.ChoreAssignments)
-                            .Include(c => c.ChoreCompletions)
-                            .ToList();
+          List<Chore> ourChores = _dbContext.Chores.ToList();
         var mappedChores = _mapper.Map<List<ChoreDTO>>(ourChores);
-
         return Ok(mappedChores);
+
+// said dont do the includes its not part of what were mapping so mapper might fail as result 
+        // List<Chore> ourChores = _dbContext.Chores
+        //                     .Include(c => c.ChoreAssignments)
+        //                     .Include(c => c.ChoreCompletions)
+        //                     .ToList();
+        // var mappedChores = _mapper.Map<List<ChoreDTO>>(ourChores);
+        // return Ok(mappedChores);
     }
 
     [HttpGet("{id}")]
@@ -52,7 +56,28 @@ public class ChoreController : ControllerBase
         {
             return NotFound($"Chore with ID {id} not found.");
         }
-        var mappedChore = _mapper.Map<ChoreDTO>(chore);
+        var mappedChore = new {
+            ChoreId = chore.Id,
+            Name = chore.Name,
+            Difficulty = chore.Difficulty,
+            ChoreAssignment = chore.ChoreAssignments.Select( eachCA => new {
+            ChoreAssignmentId = eachCA.Id,
+            UserProfileId = eachCA.UserProfileId,
+            FirstName = eachCA.UserProfile.FirstName,
+            LastName = eachCA.UserProfile.LastName,
+            }).ToList(),
+            ChoreCompletions = chore.ChoreCompletions
+            .OrderBy(eachCC => eachCC.CompletedOn)
+            .Take(1)
+            .Select(eachCC => new {
+                ChoreId = eachCC.ChoreId,
+                ChoreCompletionId = eachCC.Id,
+                DateCompleted = eachCC.CompletedOn,
+                UserProfileId = eachCC.UserProfileId,
+                FirstName = eachCC.UserProfile.FirstName,
+                LastName = eachCC.UserProfile.LastName,
+            }).ToList()
+            };
 
         return Ok(mappedChore);
     }
