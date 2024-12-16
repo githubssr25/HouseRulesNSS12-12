@@ -6,9 +6,10 @@ import UserProfileList from "./UserProfileList"
 import {UserProfileDetails} from "./UserProfileDetails"
 import {ChoreDetails} from "./ChoreDetails"
 import {ChoresList} from "./ChoresList"
+import {CreateChore} from "./CreateChore"
 // import UserProfileList from "./userprofiles/UserProfileList";
 
-import Home from "./Home"
+import Home from "./Home";
 
 /* eslint-disable react/prop-types */
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -71,6 +72,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <ChoreDetails loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
+        />
+        <Route
+          path="create"
+          element={
+            <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
+              <CreateChore loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          } // this will be http://localhost:5173/chores/create path
         />
       </Route>
 

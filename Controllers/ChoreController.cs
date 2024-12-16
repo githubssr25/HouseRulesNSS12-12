@@ -160,7 +160,7 @@ public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
         _dbContext.Chores.Add(newChore);
         _dbContext.SaveChanges();
 
-        return NoContent();
+    return Ok(newChore);
     }
 
 

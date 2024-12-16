@@ -51,3 +51,29 @@ export const getAllChores = async () => {
       return false;
     }
   };
+
+  export const createChore = async (choreData) => {
+    console.log("what is choreData structure", choreData);
+    try {
+      const response = await fetch("/api/chore", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify(choreData),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create a new chore.");
+      }
+  
+      const data = await response.json();
+      console.log("Chore successfully created:", data);
+      return data;
+    } catch (error) {
+      console.error("Error creating chore:", error.message);
+      return null;
+    }
+  };
+  

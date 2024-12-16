@@ -9,7 +9,7 @@ export const ChoresList = ({ loggedInUser }) => {
   // State to store chores
   const [chores, setChores] = useState([]);
 
-  console.log("structure of loggedinUser", loggedInUser);
+  // console.log("structure of loggedinUser", loggedInUser);
 
   // Fetch all chores when the component loads
   useEffect(() => {
@@ -18,15 +18,14 @@ export const ChoresList = ({ loggedInUser }) => {
 
   // Function to delete a chore
   const handleDelete = (choreId) => {
-
     const responseFromDelete = deleteChore(choreId);
 
-    if(responseFromDelete){
-      const filteredChores = chores.map(eachChore => eachChore.Id !== choreId);
+    if (responseFromDelete) {
+      const filteredChores = chores.map(
+        (eachChore) => eachChore.Id !== choreId
+      );
       setChores(filteredChores);
     }
-
-
   };
 
   return (
@@ -52,14 +51,24 @@ export const ChoresList = ({ loggedInUser }) => {
                 <td>{chore.name}</td>
                 <td>{chore.choreFrequencyDays}</td>
                 <td>{chore.difficulty}</td>
-                {loggedInUser?.roles && loggedInUser?.roles.includes("Admin") && (
-                  <td>
-                    <Button color="danger" onClick={() => handleDelete(chore.id)}>
-                      Delete
-                    </Button>
-                    <Link to={`/chores/${chore.id}`}> Click Here For Chore Details </Link>
-                  </td>
-                )}
+                {loggedInUser?.roles &&
+                  loggedInUser?.roles.includes("Admin") && (
+                    <td>
+                      <Button
+                        color="danger"
+                        onClick={() => handleDelete(chore.id)}
+                      >
+                        Delete
+                      </Button>
+                      <Link to={`/chores/${chore.id}`}>
+                        {" "}
+                        Click Here For Chore Details{" "}
+                      </Link>
+                      <Link to="/chores/create" style={{ marginLeft: "10px" }}>
+                        <Button color="success">Create Chore</Button>
+                      </Link>
+                    </td>
+                  )}
               </tr>
             ))}
           </tbody>
