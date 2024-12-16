@@ -17,7 +17,8 @@ export const getAllChores = async () => {
 
   export const getChoresById = async (id) => {
     try {
-      const response = await fetch(`/api/chore/${id}`, {
+      const choreId = parseInt(id, 10); // Parse id to ensure it is an integer
+      const response = await fetch(`/api/chore/${choreId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`
         }

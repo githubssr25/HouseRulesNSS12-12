@@ -8,14 +8,28 @@ export const ChoreDetails = () => {
 
   // Fetch chore details on component mount
   useEffect(() => {
-    getChoresById(id)
-      .then((data) => {
-        setChore(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching chore details:", error);
-      });
+    console.log("Attempting to fetch chore with ID:", id);
+  
+    if (id) {
+      getChoresById(id)
+        .then((data) => {
+          if (data) {
+            setChore(data);
+            console.log("Chore details received:", data);
+          } else {
+            console.warn("No chore data returned for ID:", id);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching chore details:", error.message);
+        });
+    }
   }, [id]);
+
+   // Guard Clause: Return early if chore is null
+   if (!chore) {
+    return <p>Loading chore details...</p>;
+  }
 
   return (
     <div>
@@ -23,12 +37,12 @@ export const ChoreDetails = () => {
 
       {/* Chore Information */}
       <h2>Chore Information</h2>
-      <p><strong>Name:</strong> {chore.Name}</p>
-      <p><strong>Difficulty:</strong> {chore.Difficulty}</p>
+      <p><strong>Name:</strong> {chore?.name}</p>
+      <p><strong>Difficulty:</strong> {chore?.difficulty}</p>
 
       {/* Assignees List */}
       <h2>Assigned Users</h2>
-      {chore.ChoreAssignment.length === 0 ? (
+      {chore?.choreAssignment?.length === 0 ? (
         <p>No users assigned to this chore</p>
       ) : (
         <table>
@@ -39,10 +53,10 @@ export const ChoreDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {chore.ChoreAssignment.map((assignee) => (
-              <tr key={assignee.ChoreAssignmentId}>
-                <td>{assignee.FirstName}</td>
-                <td>{assignee.LastName}</td>
+            {chore?.choreAssignment?.map((assignee, index) => (
+              <tr key={index}>
+                <td>{assignee.firstName}</td>
+                <td>{assignee.lastName}</td>
               </tr>
             ))}
           </tbody>
@@ -51,12 +65,12 @@ export const ChoreDetails = () => {
 
       {/* Most Recent Completion */}
       <h2>Most Recent Completion</h2>
-      {chore.ChoreCompletions.length === 0 ? (
+      {chore?.choreCompletions?.length === 0 ? (
         <p>No completions available</p>
       ) : (
         <div>
-          <p><strong>Completed By:</strong> {chore.ChoreCompletions[0].FirstName} {chore.ChoreCompletions[0].LastName}</p>
-          <p><strong>Date Completed:</strong> {new Date(chore.ChoreCompletions[0].DateCompleted).toLocaleDateString()}</p>
+          <p><strong>Completed By:</strong> {chore.choreCompletions[0].firstName} {chore.choreCompletions[0].lastName}</p>
+          <p><strong>Date Completed:</strong> {new Date(chore.choreCompletions[0].dateCompleted).toLocaleDateString()}</p>
         </div>
       )}
     </div>

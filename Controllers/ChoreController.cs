@@ -47,10 +47,12 @@ public class ChoreController : ControllerBase
     // [Authorize]
     public IActionResult GetById(int id)
     {
-        var chore = _dbContext.Chores
-            .Include(c => c.ChoreAssignments)
-            .Include(c => c.ChoreCompletions)
-            .FirstOrDefault(c => c.Id == id);
+          var chore = _dbContext.Chores
+        .Include(c => c.ChoreAssignments)
+            .ThenInclude(ca => ca.UserProfile) // Ensure UserProfile is eagerly loaded
+        .Include(c => c.ChoreCompletions)
+            .ThenInclude(cc => cc.UserProfile) // Ensure UserProfile is eagerly loaded
+        .FirstOrDefault(c => c.Id == id);
 
         if (chore == null)
         {
