@@ -56,7 +56,7 @@ Console.WriteLine($"Manually Hashed Password: {manualHash}");
 var storedPasswordHash = user.PasswordHash;
 
 // Verify the hashed password with the input password
-var result = hasher.VerifyHashedPassword(user, user.PasswordHash, password);
+var result = hasher.VerifyHashedPassword(user, storedPasswordHash, password);
 
 // Log the result of the password verification
 Console.WriteLine($"Password Verification Result: {result}");
@@ -156,9 +156,12 @@ Console.WriteLine($"Password Verification Result: {result}");
                 FirstName = registration.FirstName,
                 LastName = registration.LastName,
                 Address = registration.Address,
+                Email = registration.Email,
                 IdentityUserId = user.Id,
+                IdentityUser = user
             });
-            _dbContext.SaveChanges();
+
+            await _dbContext.SaveChangesAsync();
 
             var claims = new List<Claim>
                 {

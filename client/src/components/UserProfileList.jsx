@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getAllUserProfiles } from "../managers/userProfileManager";
 
 
-export const UserProfileList = () => {
+const UserProfileList = () => {
 
 
 const [userProfiles, setUserProfiles] = useState([]);
@@ -43,3 +43,5 @@ useEffect(() => {
     </div>
   );
 }
+
+export default UserProfileList;

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HouseRules.Migrations
 {
     [DbContext(typeof(HouseRulesDbContext))]
-    [Migration("20241212203925_initialMigration")]
-    partial class initialMigration
+    [Migration("20241216165731_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace HouseRules.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chore");
+                    b.ToTable("Chores");
 
                     b.HasData(
                         new
@@ -140,7 +140,7 @@ namespace HouseRules.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("ChoreAssignment");
+                    b.ToTable("ChoreAssignments");
 
                     b.HasData(
                         new
@@ -192,35 +192,35 @@ namespace HouseRules.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("ChoreCompletion");
+                    b.ToTable("ChoreCompletions");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             ChoreId = 1,
-                            CompletedOn = new DateTime(2024, 11, 28, 14, 39, 25, 391, DateTimeKind.Local).AddTicks(260),
+                            CompletedOn = new DateTime(2024, 12, 2, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9210),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 2,
                             ChoreId = 2,
-                            CompletedOn = new DateTime(2024, 12, 5, 14, 39, 25, 391, DateTimeKind.Local).AddTicks(320),
+                            CompletedOn = new DateTime(2024, 12, 9, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 3,
                             ChoreId = 3,
-                            CompletedOn = new DateTime(2024, 12, 11, 14, 39, 25, 391, DateTimeKind.Local).AddTicks(320),
+                            CompletedOn = new DateTime(2024, 12, 15, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 4,
                             ChoreId = 4,
-                            CompletedOn = new DateTime(2024, 12, 5, 14, 39, 25, 391, DateTimeKind.Local).AddTicks(320),
+                            CompletedOn = new DateTime(2024, 12, 9, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         });
                 });
@@ -398,13 +398,13 @@ namespace HouseRules.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "35174da4-8187-41b0-9500-28768ea76642",
+                            ConcurrencyStamp = "85e6a13a-903a-408d-b744-3cdaca229475",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBcoQIBPSML4mqfOl3lDpmD9i0ok1BXjTMiWkX3WJeDjCtOPAUI28sCuHPXNocd+BA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK6ez4PFAUhUFYTQQZkB4s98yGNtkUesqL7hdSIcTp0t2lijU+eGGow2RrMcM0oCxQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dc0108a4-2ffd-489f-8417-01be687f9fa0",
+                            SecurityStamp = "ab48be71-44c4-4cb8-afb6-f7d758e2229e",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });

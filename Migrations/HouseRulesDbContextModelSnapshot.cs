@@ -196,28 +196,28 @@ namespace HouseRules.Migrations
                         {
                             Id = 1,
                             ChoreId = 1,
-                            CompletedOn = new DateTime(2024, 11, 29, 11, 27, 9, 878, DateTimeKind.Local).AddTicks(5040),
+                            CompletedOn = new DateTime(2024, 12, 2, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9210),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 2,
                             ChoreId = 2,
-                            CompletedOn = new DateTime(2024, 12, 6, 11, 27, 9, 878, DateTimeKind.Local).AddTicks(5130),
+                            CompletedOn = new DateTime(2024, 12, 9, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 3,
                             ChoreId = 3,
-                            CompletedOn = new DateTime(2024, 12, 12, 11, 27, 9, 878, DateTimeKind.Local).AddTicks(5130),
+                            CompletedOn = new DateTime(2024, 12, 15, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 4,
                             ChoreId = 4,
-                            CompletedOn = new DateTime(2024, 12, 6, 11, 27, 9, 878, DateTimeKind.Local).AddTicks(5140),
+                            CompletedOn = new DateTime(2024, 12, 9, 10, 57, 31, 370, DateTimeKind.Local).AddTicks(9300),
                             UserProfileId = 1
                         });
                 });
@@ -265,15 +265,6 @@ namespace HouseRules.Migrations
                             FirstName = "Admina",
                             IdentityUserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             LastName = "Strator"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "300 Admin Street",
-                            Email = "secondadmin@example.com",
-                            FirstName = "Second",
-                            IdentityUserId = "31e1f2fb-4898-4079-a0ff-79ea232d3445",
-                            LastName = "Admin"
                         });
                 });
 
@@ -404,29 +395,15 @@ namespace HouseRules.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b00d3a5-6ddc-4277-845e-d6c2fe958f6a",
+                            ConcurrencyStamp = "85e6a13a-903a-408d-b744-3cdaca229475",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAECi/7yUaJr2x9zuTGiOFB+9nOGN0NRpshYGvNlZtEQQobBJeOYqF2S7EjHheQxfCNg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK6ez4PFAUhUFYTQQZkB4s98yGNtkUesqL7hdSIcTp0t2lijU+eGGow2RrMcM0oCxQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9f8892c9-3dfa-44ee-9289-35a8f70d604b",
+                            SecurityStamp = "ab48be71-44c4-4cb8-afb6-f7d758e2229e",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
-                        },
-                        new
-                        {
-                            Id = "31e1f2fb-4898-4079-a0ff-79ea232d3445",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "108b7fc5-d86c-495e-aeb5-fb468b66186a",
-                            Email = "secondadmin@example.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEPYsq36sTlgDdLkEzoAZdL6fEW1XX5mzSoMW7WelvU8a1aBcKeLQiaT/H8/b3OGWuQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "982a2eaa-0df1-4efa-b170-6c651063bc06",
-                            TwoFactorEnabled = false,
-                            UserName = "secondadmin"
                         });
                 });
 
@@ -495,11 +472,6 @@ namespace HouseRules.Migrations
                         new
                         {
                             UserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
-                            RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35"
-                        },
-                        new
-                        {
-                            UserId = "user-2-id",
                             RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35"
                         });
                 });

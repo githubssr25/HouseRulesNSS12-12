@@ -54,33 +54,33 @@ public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
             Email = "admin.strator123@gmail.com"
         });
 
-// Generate a GUID for the user ID
-var user2Id = Guid.NewGuid().ToString();
+        // // Generate a GUID for the user ID
+        // var user2Id = Guid.NewGuid().ToString();
 
-modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
-{
-    Id = user2Id, // Use the generated GUID
-    UserName = "secondadmin",
-    Email = "secondadmin@example.com",
-    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "SecondAdminPassword1234!")
-});
+        // modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
+        // {
+        //     Id = user2Id, // Use the generated GUID
+        //     UserName = "secondadmin",
+        //     Email = "secondadmin@example.com",
+        //     PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "SecondAdminPassword1234!")
+        // });
 
-modelBuilder.Entity<UserProfile>().HasData(new UserProfile
-{
-    Id = 3,
-    IdentityUserId = user2Id, // Match the IdentityUser Id here
-    FirstName = "Second",
-    LastName = "Admin",
-    Address = "300 Admin Street",
-    Email = "secondadmin@example.com"
-});
+        // modelBuilder.Entity<UserProfile>().HasData(new UserProfile
+        // {
+        //     Id = 3,
+        //     IdentityUserId = user2Id, // Match the IdentityUser Id here
+        //     FirstName = "Second",
+        //     LastName = "Admin",
+        //     Address = "300 Admin Street",
+        //     Email = "secondadmin@example.com"
+        // });
 
 
-modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-{
-    RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", // Admin RoleId
-    UserId = "user-2-id" // New Admin UserId
-});
+        // modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+        // {
+        //     RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", // Admin RoleId
+        //     UserId = user2Id // New Admin UserId
+        // });
 
 
           // Add Chores
