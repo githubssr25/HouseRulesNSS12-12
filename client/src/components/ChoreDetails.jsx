@@ -55,7 +55,7 @@ const handleCheckboxChange = (userId) => {
           if (data) {
             setChore(data);
             data.choreAssignment.forEach((chore) => {
-              setAssignedUserIds((prevIds) => [...prevIds, chore.choreAssignmentId ])
+              setAssignedUserIds((prevIds) => [...prevIds, chore.userProfileId ])
             });
            
 //cant have this in foreach data.choreAssignment.choreAssignmentIdvThis implies that data.choreAssignment is an object with a property called choreAssignmentId, but data.choreAssignment is an array, not an object
