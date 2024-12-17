@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllChores, deleteChore } from "../managers/choreManager"; // Functions for API calls
+import { getAllChores, deleteChore, completeChore } from "../managers/choreManager"; // Functions for API calls
 import { Button } from "reactstrap"; // Optional, for buttons
 import { Link } from "react-router-dom";
 
@@ -28,6 +28,17 @@ export const ChoresList = ({ loggedInUser }) => {
     }
   };
 
+   // Function to complete a chore
+   const handleComplete = (choreId) => {
+    completeChore(choreId, loggedInUser.id)
+      .then(() => {
+        console.log(`Chore ${choreId} marked as complete by user ${loggedInUser.id}`);
+      })
+      .catch((error) => {
+        console.error(`Failed to complete chore ${choreId}:`, error.message);
+      });
+  };
+
   return (
     <div>
       <h1>Chores List</h1>
@@ -54,6 +65,12 @@ export const ChoresList = ({ loggedInUser }) => {
                 {loggedInUser?.roles &&
                   loggedInUser?.roles.includes("Admin") && (
                     <td>
+                       <Button 
+                    color="primary" 
+                    onClick={() => handleComplete(chore.id)} 
+                    style={{ marginRight: "10px" }}>
+                    Complete
+                  </Button>
                       <Button
                         color="danger"
                         onClick={() => handleDelete(chore.id)}

@@ -190,6 +190,31 @@ public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
     return NoContent(); // Returns 204 No Content
 }
 
+[HttpPut("{id}/complete")]
+[Authorize]
+public IActionResult CompleteChore(int id)
+{
+    // Find the chore by its ID
+    var chore = _dbContext.Chores.FirstOrDefault(c => c.Id == id);
+
+    if (chore == null)
+    {
+        return NotFound($"Chore with ID {id} not found.");
+    }
+
+    // Create a new ChoreCompletion entry if applicable
+    var choreCompletion = new ChoreCompletion
+    {
+        ChoreId = id,
+        UserProfileId = int.Parse(User.FindFirst("UserId").Value), // Assuming UserId is in claims
+        CompletedOn = DateTime.UtcNow
+    };
+
+    _dbContext.ChoreCompletions.Add(choreCompletion);
+    _dbContext.SaveChanges();
+
+    return NoContent(); // Returns 204 No Content
+}
 
 
 [HttpDelete("{id}")]
@@ -226,8 +251,8 @@ return NoContent();
 
 }
 
-  [HttpPost("/{choreId}/assign")]
-    [Authorize]
+  [HttpPost("{choreId}/assign")]
+    // [Authorize]
     public IActionResult AssignChore(int choreId, [FromQuery] int userId)
     {
 
@@ -275,7 +300,7 @@ return NoContent();
 
 
 [HttpPost("{choreId}/unassign")]
-[Authorize]
+// [Authorize]
 public IActionResult UnassignChore(int choreId, [FromQuery] int userId)
 {
     // Check if the chore exists

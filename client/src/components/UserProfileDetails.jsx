@@ -74,15 +74,15 @@ console.log("what is id params being passed in id", id);
           <h1>User Profile Details</h1>
     
           <h2>Basic Info</h2>
-          <p><strong>First Name:</strong> {userProfile.firstName}</p>
-<p><strong>Last Name:</strong> {userProfile.lastName}</p>
-<p><strong>Address:</strong> {userProfile.address}</p>
-<p><strong>Email:</strong> {userProfile.email}</p>
-<p><strong>Username:</strong> {userProfile.identityUser?.userName}</p>
+          <p><strong>First Name:</strong> {userProfile?.firstName}</p>
+<p><strong>Last Name:</strong> {userProfile?.lastName}</p>
+<p><strong>Address:</strong> {userProfile?.address}</p>
+<p><strong>Email:</strong> {userProfile?.email}</p>
+<p><strong>Username:</strong> {userProfile?.identityUser?.userName}</p>
 
     
           <h2>Roles</h2>
-          {userProfile.Roles && userProfile.Roles.length > 0 ? (
+          {userProfile?.Roles && userProfile?.Roles.length > 0 ? (
             <ul>
               {userProfile.Roles.map((role, index) => (
                 <li key={index}>{role}</li>
@@ -95,7 +95,7 @@ console.log("what is id params being passed in id", id);
           <div>
     
           <h2>Assigned Chores</h2>
-          {userProfile.assignedChores && userProfile.assignedChores.length > 0 ? (
+          {userProfile?.assignedChores && userProfile?.assignedChores.length > 0 ? (
             <table>
               <thead>
                 <tr>
@@ -104,7 +104,7 @@ console.log("what is id params being passed in id", id);
                 </tr>
               </thead>
               <tbody>
-                {userProfile.assignedChores.map((chore, index) => (
+                {userProfile?.assignedChores.map((chore, index) => (
                   <tr key={index}>
                     <td>{chore.choreName}</td>
                     <td>{chore.difficulty}</td>
@@ -117,7 +117,7 @@ console.log("what is id params being passed in id", id);
           )}
     
           <h2>Completed Chores</h2>
-          {userProfile.completedChores && userProfile.completedChores.length > 0 ? (
+          {userProfile?.completedChores && userProfile?.completedChores.length > 0 ? (
             <table>
               <thead>
                 <tr>
@@ -126,7 +126,7 @@ console.log("what is id params being passed in id", id);
                 </tr>
               </thead>
               <tbody>
-                {userProfile.completedChores.map((chore, index) => (
+                {userProfile?.completedChores.map((chore, index) => (
                   <tr key={index}>
                     <td>{chore.choreName}</td>
                     <td>{new Date(chore.completedOn).toLocaleDateString()}</td>

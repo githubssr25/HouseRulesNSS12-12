@@ -77,3 +77,71 @@ export const getAllChores = async () => {
     }
   };
   
+  export const completeChore = async (choreId) => {
+    try {
+      const response = await fetch(`/api/chore/${choreId}/complete`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to complete the chore.");
+      }
+  
+      console.log(`Chore ${choreId} marked as complete successfully.`);
+      return true; // No body is expected for 204 responses
+    } catch (error) {
+      console.error("Error completing chore:", error.message);
+      return false;
+    }
+  };
+
+  export const assignUserToChore = async (choreId, userId) => {
+    try {
+      const response = await fetch(`/api/chore/${choreId}/assign?userId=${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to assign user (User ID: ${userId}) to chore (Chore ID: ${choreId}).`);
+      }
+  
+      console.log(`User (ID: ${userId}) successfully assigned to Chore (ID: ${choreId})`);
+      return true; // Indicate success
+    } catch (error) {
+      console.error("Error assigning user to chore:", error.message);
+      return false; // Indicate failure
+    }
+  };
+  
+
+  export const unAssignUserFromChore = async (choreId, userId) => {
+    try {
+      const response = await fetch(`/api/chore/${choreId}/unassign?userId=${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to unassign user (User ID: ${userId}) from chore (Chore ID: ${choreId}).`);
+      }
+  
+      console.log(`User (ID: ${userId}) successfully unassigned from Chore (ID: ${choreId})`);
+      return true; // Indicate success
+    } catch (error) {
+      console.error("Error unassigning user from chore:", error.message);
+      return false; // Indicate failure
+    }
+  };
+  
+  
