@@ -168,3 +168,42 @@ export const getAllChores = async () => {
     }
   };
   
+  export const completeChore2 = async (choreId, userId) => {
+    const response = await fetch(`/api/chore/${choreId}/complete?userId=${userId}`, {
+      method: "PUT", // Change to PUT
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}` // Assuming you are using JWT
+      }
+    });
+  
+    if (!response.ok) {
+      throw new Error(`Failed to complete chore: ${response.statusText}`);
+    }
+  
+    const data = await response.json();
+    return data;
+  };
+  
+  export const getAssignedDueChores = async (userId) => {
+    try {
+      const response = await fetch(`/api/chore/assigned/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}` // Assuming you're using JWT for authentication
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch assigned chores: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data; // Return the list of assigned chores
+    } catch (error) {
+      console.error("Error fetching assigned chores:", error.message);
+      throw error;
+    }
+  };
+  

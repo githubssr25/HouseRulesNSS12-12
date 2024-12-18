@@ -7,6 +7,7 @@ import {UserProfileDetails} from "./UserProfileDetails"
 import {ChoreDetails} from "./ChoreDetails"
 import {ChoresList} from "./ChoresList"
 import {CreateChore} from "./CreateChore"
+import {AssignedChores} from "./AssignedChores"
 // import UserProfileList from "./userprofiles/UserProfileList";
 
 import Home from "./Home";
@@ -80,6 +81,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <CreateChore loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           } // this will be http://localhost:5173/chores/create path
+        />
+        <Route 
+        path="assigned"
+        element={
+          <AuthorizedRoute loggedInUser={loggedInUser}>
+            <AssignedChores loggedInUser={loggedInUser} />
+          </AuthorizedRoute>
+        } 
+
         />
       </Route>
 

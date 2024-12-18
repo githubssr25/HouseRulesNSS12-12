@@ -13,8 +13,11 @@ export const ChoresList = ({ loggedInUser }) => {
 
   // Fetch all chores when the component loads
   useEffect(() => {
-    getAllChores().then(setChores);
-  }, [chores]);
+    getAllChores().then((data) => {
+      console.log("Response from getAllChores:", data); // Log the data before setting the state
+      setChores(data);
+    });
+  }, []);
 
   // Function to delete a chore
   const handleDelete = (choreId) => {
@@ -59,7 +62,11 @@ export const ChoresList = ({ loggedInUser }) => {
           <tbody>
             {chores.map((chore) => (
               <tr key={chore.id}>
-                <td>{chore.name}</td>
+                <td
+                style={{color: chore.choresDue ? "red" : "black"}}
+                >
+                  {chore.name}
+                </td>
                 <td>{chore.choreFrequencyDays}</td>
                 <td>{chore.difficulty}</td>
                 {loggedInUser?.roles &&

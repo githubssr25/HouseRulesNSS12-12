@@ -6,4 +6,6 @@ public class ChoreDTO
     public string Name { get; set; }
     public int Difficulty { get; set; }
     public int ChoreFrequencyDays { get; set; }
+
+    public bool ChoresDue {get; set;}
 }

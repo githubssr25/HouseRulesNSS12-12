@@ -18,6 +18,25 @@ public class Chore
         [Range(1, 14, ErrorMessage = "Chore frequency must be between 1 and 14.")]
         public int ChoreFrequencyDays { get; set; }
 
+
+    public bool ChoresDue 
+    {
+        get { if (ChoreCompletions == null || !ChoreCompletions.Any()){
+
+                return true;
+        }
+
+    DateTime currentDate = DateTime.Now.Date; // no time just the date 
+
+    DateTime completedDate = ChoreCompletions.Max(cc => cc.CompletedOn);
+
+     int differenceInDays = (currentDate - completedDate).Days;
+
+     return differenceInDays > ChoreFrequencyDays;
+
+        }
+    }
+
     // Relationships
     public List<ChoreAssignment> ChoreAssignments { get; set; } = new List<ChoreAssignment>();
     public List<ChoreCompletion> ChoreCompletions { get; set; } = new List<ChoreCompletion>();
