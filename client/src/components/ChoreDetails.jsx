@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getChoresById } from "../managers/choreManager";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {getAllUserProfiles} from "../managers/userProfileManager";
-import {assignUserToChore, unAssignUserFromChore}from "../managers/ChoreManager";
+import {assignUserToChore, unAssignUserFromChore, updateChore,}from "../managers/ChoreManager";
 
 export const ChoreDetails = () => {
   const { id } = useParams(); // Get the id from the URL (like /chores/1)
@@ -10,6 +10,13 @@ export const ChoreDetails = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [assignedUserIds, setAssignedUserIds] = useState([]);
 
+  const[formData, setFormData] = useState({
+    name: "",
+    difficulty: 0,
+    choreFrequencyDays: 0,
+  });
+
+  const navigate = useNavigate();
 
 useEffect(() => {
   getAllUserProfiles()
@@ -53,6 +60,11 @@ const handleCheckboxChange = (userId) => {
       getChoresById(id)
         .then((data) => {
           if (data) {
+            setFormData({
+              name: data.name,
+              difficulty: data.difficulty,
+              choreFrequency: data.choreFrequency
+            });
             setChore(data);
             data.choreAssignment.forEach((chore) => {
               setAssignedUserIds((prevIds) => [...prevIds, chore.userProfileId ])
@@ -72,15 +84,76 @@ const handleCheckboxChange = (userId) => {
     }
   }, [id]);
 
+  const handleChange = (event) => {
+const {name, value} = event.target;
+setFormData((prevForm) => ({
+  ...prevForm,
+  [name] : value,
+}));
+ }
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const updatedChore = await updateChore(id, formData);
+      if (updatedChore) {
+        console.log("Chore updated successfully:", updatedChore);
+        navigate("/chores");
+      }
+    } catch (error) {
+      console.error("Error while updating chore:", error.message);
+    }
+  };
+
 
   return (
     <div>
-      <h1>Chore Details</h1>
+      <h1>Update Chores --this is the ChoreDetails btw</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Chore Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-      {/* Chore Information */}
-      <h2>Chore Information</h2>
-      <p><strong>Name:</strong> {chore?.name}</p>
-      <p><strong>Difficulty:</strong> {chore?.difficulty}</p>
+        <div>
+          <label>Difficulty</label>
+          <input
+            type="number"
+            name="difficulty"
+            value={formData.difficulty}
+            onChange={handleChange}
+            min="1"
+            max="5"
+            required
+          />
+        </div>
+
+        <div>
+          <label>Chore Frequency (Days)</label>
+          <input
+            type="number"
+            name="choreFrequencyDays"
+            value={formData.choreFrequencyDays}
+            onChange={handleChange}
+            min="1"
+            max="14"
+            required
+          />
+        </div>
+
+        <button type="submit">Update Chore</button>
+      </form>
+
+
+
 
       {/* Assignees List
       <h2>Assigned Users</h2>

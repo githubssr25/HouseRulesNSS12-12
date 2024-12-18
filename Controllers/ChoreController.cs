@@ -62,6 +62,7 @@ public class ChoreController : ControllerBase
             ChoreId = chore.Id,
             Name = chore.Name,
             Difficulty = chore.Difficulty,
+            ChoreFrequency = chore.ChoreFrequencyDays,
             ChoreAssignment = chore.ChoreAssignments.Select( eachCA => new {
             ChoreAssignmentId = eachCA.Id,
             UserProfileId = eachCA.UserProfileId,
@@ -85,7 +86,7 @@ public class ChoreController : ControllerBase
     }
 
 [HttpPost("{choreId}/complete")]
-[Authorize]
+// [Authorize]
 public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
 {
     var user = _dbContext.UserProfiles
@@ -148,7 +149,7 @@ public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
 }
 
   [HttpPost]
-    [Authorize]
+    // [Authorize]
     public IActionResult CreateChore([FromBody] CreateChoreDTO choreDto)
     {
         if (choreDto == null)
@@ -165,7 +166,7 @@ public IActionResult CreateChoreCompletion(int choreId, [FromQuery] int userId)
 
 
   [HttpPut("{id}")]
-[Authorize]
+// [Authorize]
 public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
 {
     if (choreDto == null)
@@ -175,6 +176,10 @@ public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
 
     // Find the chore by ID
     var chore = _dbContext.Chores.FirstOrDefault(c => c.Id == id);
+
+    chore.Name = choreDto.Name;
+    chore.Difficulty = choreDto.Difficulty;
+    chore.ChoreFrequencyDays = choreDto.ChoreFrequencyDays;
 
     if (chore == null)
     {
@@ -187,11 +192,11 @@ public IActionResult UpdateChore(int id, [FromBody] UpdateChoreDTO choreDto)
     // Save changes to the database
     _dbContext.SaveChanges();
 
-    return NoContent(); // Returns 204 No Content
+    return Ok(chore);// Returns 204 No Content
 }
 
 [HttpPut("{id}/complete")]
-[Authorize]
+// [Authorize]
 public IActionResult CompleteChore(int id)
 {
     // Find the chore by its ID
@@ -218,7 +223,7 @@ public IActionResult CompleteChore(int id)
 
 
 [HttpDelete("{id}")]
-[Authorize]
+// [Authorize]
 public IActionResult DeleteChore(int id)
 {
 

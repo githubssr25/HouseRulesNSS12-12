@@ -144,4 +144,27 @@ export const getAllChores = async () => {
     }
   };
   
+  export const updateChore = async (choreId, choreData) => {
+    try {
+      const response = await fetch(`/api/chore/${choreId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        },
+        body: JSON.stringify(choreData),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to update the chore.");
+      }
+  
+      const data = await response.json();
+      console.log("Chore successfully updated:", data);
+      return data;
+    } catch (error) {
+      console.error("Error updating chore:", error.message);
+      return null;
+    }
+  };
   

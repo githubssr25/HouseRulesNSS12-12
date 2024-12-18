@@ -12,6 +12,7 @@ export const CreateChore = () => {
       choreFrequencyDays: 1,
     });
   
+    const [errors, setErrors] = useState({}); // New state to store validation errors
     const navigate = useNavigate();
   
     const handleSubmit = async (e) => {
@@ -19,14 +20,19 @@ export const CreateChore = () => {
   
       try {
         const newChore = await createChore(formData);
-        if (newChore) {
+        if (newChore?.errors) {
+          // If there are errors in the response, set them in the errors state
+          setErrors(newChore.errors);
+        } else {
           console.log("New chore created successfully:", newChore);
           navigate("/chores"); // Navigate back to Chores List after success
         }
       } catch (error) {
         console.error("Error while creating chore:", error.message);
+        setErrors({ general: ["An unexpected error occurred."] }); // Catch-all for unexpected errors
       }
     };
+  
   
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -88,6 +94,18 @@ export const CreateChore = () => {
               Cancel
             </button>
           </form>
+
+          {Object.keys(errors).length > 0 && (
+        <div style={{ color: "red", marginTop: "20px" }}>
+          <h3>Errors:</h3>
+          {Object.keys(errors).map((key) => (
+            <p key={key}>
+              <strong>{key}:</strong> {errors[key].join(", ")}
+            </p>
+          ))}
+        </div>
+      )}  
+
         </div>
       );
     };
